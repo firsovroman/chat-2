@@ -2,10 +2,6 @@ package org.jeka.demowebinar1no_react.model;
 
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
-import org.springframework.ai.chat.messages.AssistantMessage;
-import org.springframework.ai.chat.messages.Message;
-import org.springframework.ai.chat.messages.SystemMessage;
-import org.springframework.ai.chat.messages.UserMessage;
 
 import java.util.Arrays;
 
