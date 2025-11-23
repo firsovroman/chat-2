@@ -1,6 +1,7 @@
 package org.jeka.demowebinar1no_react;
 
 import org.jeka.demowebinar1no_react.repo.ChatRepository;
+import org.jeka.demowebinar1no_react.services.PostgresChatMemory;
 import org.springframework.ai.chat.client.ChatClient;
 import org.springframework.ai.chat.client.advisor.MessageChatMemoryAdvisor;
 import org.springframework.ai.chat.client.advisor.api.Advisor;
@@ -29,7 +30,7 @@ public class DemoWebinar1NoReactApplication {
     }
 
     private ChatMemory getChatMemory() {
-        return MessageWindowChatMemory.builder()
+        return PostgresChatMemory.builder()
                 .maxMessages(2)
                 .chatMemoryRepository(chatRepository)
                 .build();
