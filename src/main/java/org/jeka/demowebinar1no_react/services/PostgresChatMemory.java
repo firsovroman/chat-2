@@ -31,11 +31,12 @@ public class PostgresChatMemory implements ChatMemory {
     @Override
     public List<Message> get(String conversationId) {
         Chat chat = chatMemoryRepository.findById(Long.valueOf(conversationId)).orElseThrow();
-        return chat.getHistory().stream()
+        var list = chat.getHistory().stream()
                 .sorted(Comparator.comparing(ChatEntry::getCreatedAt).reversed())
                 .map(ChatEntry::toMessage)
                 .limit(maxMessages)
                 .toList();
+        return list;
     }
 
     @Override
