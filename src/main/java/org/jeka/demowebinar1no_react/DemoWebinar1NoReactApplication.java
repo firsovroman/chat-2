@@ -7,6 +7,8 @@ import org.springframework.ai.chat.client.advisor.MessageChatMemoryAdvisor;
 import org.springframework.ai.chat.client.advisor.api.Advisor;
 import org.springframework.ai.chat.client.advisor.vectorstore.QuestionAnswerAdvisor;
 import org.springframework.ai.chat.memory.ChatMemory;
+import org.springframework.ai.chat.prompt.PromptTemplate;
+import org.springframework.ai.vectorstore.SearchRequest;
 import org.springframework.ai.vectorstore.VectorStore;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
@@ -16,6 +18,8 @@ import org.springframework.context.annotation.Bean;
 
 @SpringBootApplication
 public class DemoWebinar1NoReactApplication {
+
+    private static final PromptTemplate DEFAULT_PROMPT_TEMPLATE = new PromptTemplate("{query}\n\nКонтекстная информация приведена ниже, окружена символами ---------------------\n\n---------------------\n{question_answer_context}\n---------------------\n\nУчитывая контекст и предоставленную историю, но не используя prior knowledge,\nответьте на комментарий пользователя. Если ответа нет в контексте,\nсообщите пользователю, что вы не можете ответить на вопрос.\n");
 
     @Autowired
     private ChatRepository chatRepository;
@@ -29,7 +33,10 @@ public class DemoWebinar1NoReactApplication {
     }
 
     private Advisor getRagAdvisor() {
-        return QuestionAnswerAdvisor.builder(vectorStore).build();
+        return QuestionAnswerAdvisor.builder(vectorStore)
+                .promptTemplate(DEFAULT_PROMPT_TEMPLATE)
+                .searchRequest(SearchRequest.builder().topK(4).build())
+                .build();
     }
 
     private Advisor getHistoryAdvisor() {
